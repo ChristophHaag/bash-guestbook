@@ -1,0 +1,6 @@
+Should be very simple to use:
+Just put it into your www folder.
+comments.sh displays previous comments and allows to submit a new comment.
+The comment is actually submitted by writecomments.sh and stored into comments.txt.
+
+Uses the tool recode to convert the input to html special characters.
