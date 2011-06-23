@@ -24,14 +24,14 @@ tac comments.txt | while read I
 do
    NICK=$(echo "$I" | cut -f 1 -d "|")
    DATE=$(date --date="@$(echo $I | cut -f 2 -d "|")" +"%T %D")
-   WWW=$(echo $(echo $I | cut -f 3 -d "|") | grep -Eo "http://[a-z0-9/-_\.]*") #regex could be improved
-   MSG=$(echo "$I" | cut --complement -f 1-3 -d "|")
+   EEPSITE=$(echo $(echo $I | cut -f 3 -d "|") | grep -Eo "http://[a-z0-9/-_\.]*")
+   MSG=$(echo "$I" | cut --complement -f 1-3 -d "|" | sed "s/&#13;/<br>/g")
    echo '<div style="border:solid 1px; width:50em; padding: 1em">'
    echo "<p>$NICK said at $DATE</p><hr>"
    echo "<div>$MSG</div>"
-   if [ -n "$WWW" ]
+   if [ -n "$EEPSITE" ]
    then
-      echo "<a href=\"$WWW\">$WWW</a>"
+      echo "<a href=\"$EEPSITE\">$EEPSITE</a>"
    fi
    echo "</div><br>"
 done
