@@ -31,7 +31,7 @@ do
    DATE=$(date --date="@$(echo $I | cut -f 2 -d "|")" +"%T %D")
    WWW=$(echo $I | cut -f 3 -d "|" | grep -Eo "\b(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]*[-A-Za-z0-9+&@#/%=~_|]")
    ADDRESS=$(echo "$I" | cut -f 4 -d "|")
-   MSG=$(echo "$I" | cut --complement -f 1-4 -d "|" | sed "s/&#13;/<br>/g")
+   MSG=$(echo "$I" | cut --complement -f 1-4 -d "|" | sed "s/&#13;/<br>/g" | recode html/..)
    echo '<div style="border:solid 1px; width:50em; padding: 1em">'
    echo "<p><b>$NICK</b> said at <b>$DATE</b></p><hr>"
    echo "<div><p>$MSG</p></div>"
