@@ -13,7 +13,8 @@ echo "<body><h1>Comments</h1>"
 echo '<div><u>Write comment (all fields optional)</u>:
 <br><br><form action="writecomments.sh" method="GET">
    Nickname: <input type="text" name="nickname"><br>
-   eepsite: <input type="text" name="eepsite"><br><br>
+   WWW: <input type="text" name="WWW"><br>
+   contact address: <input type="text" name="address"><br><br>
    Text:<br>
    <textarea rows=10 cols=50 name="msg"></textarea><br>
    <input type="submit" value="Submit!">
@@ -24,15 +25,25 @@ tac comments.txt | while read I
 do
    NICK=$(echo "$I" | cut -f 1 -d "|")
    DATE=$(date --date="@$(echo $I | cut -f 2 -d "|")" +"%T %D")
-   EEPSITE=$(echo $(echo $I | cut -f 3 -d "|") | grep -Eo "http://[a-z0-9/-_\.]*")
-   MSG=$(echo "$I" | cut --complement -f 1-3 -d "|" | sed "s/&#13;/<br>/g")
+   WWW=$(echo $I | cut -f 3 -d "|" | grep -Eo "\b(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]*[-A-Za-z0-9+&@#/%=~_|]")
+   ADDRESS=$(echo "$I" | cut -f 4 -d "|")
+   MSG=$(echo "$I" | cut --complement -f 1-4 -d "|" | sed "s/&#13;/<br>/g")
    echo '<div style="border:solid 1px; width:50em; padding: 1em">'
-   echo "<p>$NICK said at $DATE</p><hr>"
-   echo "<div>$MSG</div>"
-   if [ -n "$EEPSITE" ]
+   echo "<p><b>$NICK</b> said at <b>$DATE</b></p><hr>"
+   echo "<div><p>$MSG</p></div>"
+   if [ -n "$WWW" ] || [ -n "$ADDRESS" ]
    then
-      echo "<a href=\"$EEPSITE\">$EEPSITE</a>"
+      echo "<hr />"
+   fi
+   if [ -n "$WWW" ]
+   then
+      echo "<p>WWW: <a href=\"$WWW\">$WWW</a></p>"
+   fi
+   if [ -n "$ADDRESS" ]
+   then
+      echo "<p>Address: $ADDRESS</p>"
    fi
    echo "</div><br>"
 done
 echo "</body></html>"
+exit 0

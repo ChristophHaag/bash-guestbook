@@ -31,21 +31,20 @@ echo "<body><h1>Comment hopefully written</h1>"
 NICKU=$(echo "$QUERY_STRING" | sed -n 's/^.*nickname=\([^&]*\).*$/\1/p' | sed "s/%20/ /g" | sed "s/+/ /g")
 MSGU=$(echo "$QUERY_STRING" | sed -n 's/^.*msg=\([^&]*\).*$/\1/p' | sed "s/%20/ /g" | sed "s/+/ /g")
 WWWU=$(echo "$QUERY_STRING" | sed -n 's/^.*WWW=\([^&]*\).*$/\1/p' | sed "s/%20/ /g" | sed "s/+/ /g")
+ADDRESSU=$(echo "$QUERY_STRING" | sed -n 's/^.*address=\([^&]*\).*$/\1/p' | sed "s/%20/ /g" | sed "s/+/ /g")
 
 NICK=$(cgi_decodevar "$NICKU" | recode -pf ..html)
 MSG=$(cgi_decodevar "$MSGU" | recode -pf ..html)
 WWW=$(cgi_decodevar "$WWWU" | recode -pf ..html)
+ADDRESS=$(cgi_decodevar "$ADDRESSU" | recode -pf ..html)
 DATE=$(date +%s)
-echo "$NICK<br>"
-echo "$MSG<br>"
-echo "$WWW<br>"
 
-
-echo "$NICK|$DATE|$WWW|$MSG" >> "comments.txt"
+echo "$NICK|$DATE|$WWW|$ADDRESS|$MSG" >> "comments.txt"
 echo "<div><u>I wrote</u><br>"
 echo "<b>Nick:</b> $NICK<br>"
 echo "<b>Date:</b> "$(date --date="@$DATE" +"%T %D")"<br>"
 echo "<b>WWW:</b> $WWW<br>"
+echo "<b>Address:</b> $ADDRESS<br>"
 echo "<b>Message:</b> <pre>$MSG</pre></div>"
 echo "<br>"
 echo "<a href=""comments.sh"">back</a>"
