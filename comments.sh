@@ -24,6 +24,10 @@ echo "<h3>Former Comments</h3>"
 tac comments.txt | while read I
 do
    NICK=$(echo "$I" | cut -f 1 -d "|")
+   if [ ! -n "$NICK" ]
+   then
+      NICK="<i>an anonymous user</i>"
+   fi
    DATE=$(date --date="@$(echo $I | cut -f 2 -d "|")" +"%T %D")
    WWW=$(echo $I | cut -f 3 -d "|" | grep -Eo "\b(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]*[-A-Za-z0-9+&@#/%=~_|]")
    ADDRESS=$(echo "$I" | cut -f 4 -d "|")
